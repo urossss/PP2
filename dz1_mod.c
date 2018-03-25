@@ -50,7 +50,7 @@ void shiftLeft(int src[], int dst[], int n, int k) {
 	for (int i = k; i < n; i++) {
 		dst[i - k] = src[i];
 	}
-	for (int i = (n > k) ? (n - k) : 0 ; i < n; i++) {
+	for (int i = (n > k) ? (n - k) : 0; i < n; i++) {
 		dst[i] = 0;
 	}
 }
@@ -66,8 +66,31 @@ void shiftRight(int arr[], int dst[], int n, int k) {
 	}
 }
 
+// sortira niz a duzine n rastuce ili opadajuce u zavisnosti od parametra k
+void sort(int a[], int n, int k) {
+	char t;
+	for (int i = 0; i < n - 1; i++) {
+		for (int j = i + 1; j < n; j++) {
+			if (k) {	// rastuci (neopadajuci) poredak
+				if (a[j] < a[i]) {
+					t = a[i];
+					a[i] = a[j];
+					a[j] = t;
+				}
+			}
+			else {		// opadajuci (nerastuci) poredak
+				if (a[j] > a[i]) {
+					t = a[i];
+					a[i] = a[j];
+					a[j] = t;
+				}
+			}
+		}
+	}
+}
+
 int main() {
-	int a[MAX], b[MAX];	// a je pocetni niz, b je novi niz dobijen pomeranjem niza a
+	int a[MAX], b[MAX], k;	// a je pocetni niz, b je novi niz dobijen pomeranjem niza a, k je kriterijum sortiranja
 	int n, val, i, s;		// n - broj elemenata niza, val - vrednost broja cija je predstava niz b, s - broj mesta za koje se pomera
 
 	while (1) {
@@ -78,6 +101,14 @@ int main() {
 
 		for (i = 0; i < n; i++) scanf("%d", &a[i]);
 
+		printf("Kriterijum sortiranja (0 za opadajuci ili 1 za rastuci): ");
+		scanf("%d", &k);
+
+		sort(a, n, k);
+
+		printf("%10s", "a: ");
+		printArray(a, n);		// sortiran pocetni broj
+
 		printf("Shift za: ");
 		scanf("%d", &s);
 
@@ -87,7 +118,7 @@ int main() {
 		else {
 			shiftLeft(a, b, n, -s);
 		}
-		
+
 		printf("%10s", "a: ");
 		printArray(a, n);		// pocetni broj
 		printf("%10s", "b: ");
