@@ -50,14 +50,14 @@ void shiftLeft(int src[], int dst[], int n, int k) {
 	for (int i = k; i < n; i++) {
 		dst[i - k] = src[i];
 	}
-	for (int i = (n > k) ? (n - k) : 0 ; i < n; i++) {
+	for (int i = (n > k) ? (n - k) : 0; i < n; i++) {
 		dst[i] = 0;
 	}
 }
 
 // formira niz dst dobijen pomeranjem niza src duzine n za k mesta udesno
 void shiftRight(int arr[], int dst[], int n, int k) {
-	char c = arr[0];	// cifra koja se dodaje na k bitova najvece duzine, 0 za pozitivne brojeve, 1 za negativne
+	int c = arr[0];	// cifra koja se dodaje na k bitova najvece duzine, 0 za pozitivne brojeve, 1 za negativne
 	for (int i = n - k - 1; i >= 0; i--) {
 		dst[i + k] = arr[i];
 	}
@@ -87,7 +87,7 @@ int main() {
 		else {
 			shiftLeft(a, b, n, -s);
 		}
-		
+
 		printf("%10s", "a: ");
 		printArray(a, n);		// pocetni broj
 		printf("%10s", "b: ");
