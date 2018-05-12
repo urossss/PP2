@@ -28,8 +28,8 @@ void printStrings(char **str, int n) {
 	}
 }
 
-void replace(char *s, char *curr1, char *curr2, char *rate) {
-	char *t, *num1, *num2;
+void replace(char **str, int ind, char *curr1, char *curr2, char *rate) {
+	char *t, *num1, *num2, *s = *(str + ind);
 	double val1, val2;
 	int i, len1, len2, diff, cnt, ind1, ind2;
 
@@ -55,16 +55,20 @@ void replace(char *s, char *curr1, char *curr2, char *rate) {
 				if (i == strlen(curr1) && (t - s == strlen(s) || *t == ' ')) {	// vrsi se odgovarajuca zamena
 					num2 = NULL;
 					val2 = val1 * atof(rate);
-					int len = 1;
+					/*int len = 1;
 					do {
 						num2 = realloc(num2, ++len);
 						if (num2 == NULL) error();
 						len2 = sprintf(num2, "%lg", val2);
-					} while (len2 < 0);
+					} while (len2 < 0);*/
+
+					len2 = snprintf(NULL, 0, "%lg", val2);	// da vidimo koliko ce slova imati string dobijen konvertovanjem broja val2
+					num2 = malloc((len2 + 1) * sizeof(*num2));	// alociramo potrebni prostor
+					snprintf(num2, len2 + 1, "%lg", val2);	// sada tek konvertujemo double u string
 
 					diff = len2 - len1 + strlen(curr2) - strlen(curr1);
 
-					ind2 = t - s;
+					ind2 = t - s;	// index na kom se nalazi prvo slovo nakon valute koju treba konvertovati
 
 					if (diff <= 0) {
 						for (i = ind1; i < strlen(s) + diff; i++) {
@@ -84,6 +88,7 @@ void replace(char *s, char *curr1, char *curr2, char *rate) {
 							s = realloc(s, strlen(s) + 1);
 							if (s == NULL) error();
 							t = s + cnt;	// jer se posle realokacije s ne mora nalaziti na istoj lokaciji
+							*(str + ind) = s;
 						}
 					}
 					else {	// diff > 0
@@ -91,6 +96,7 @@ void replace(char *s, char *curr1, char *curr2, char *rate) {
 						s = realloc(s, strlen(s) + 1 + diff);
 						if (s == NULL) error();
 						t = s + cnt;	// jer se posle realokacije s ne mora nalaziti na istoj lokaciji
+						*(str + ind) = s;
 						
 						*(s + strlen(s) + diff) = '\0';
 
@@ -106,6 +112,8 @@ void replace(char *s, char *curr1, char *curr2, char *rate) {
 								*(s + i) = *(curr2 + i - ind1 - len2 - 1);
 						}
 					}
+
+					free(num2);
 				}
 			}
 		}
@@ -147,7 +155,7 @@ int main() {
 		rate = strtok(NULL, " ");
 
 		for (i = 0; i < n; i++) {
-			replace(*(str + i), curr1, curr2, rate);
+			replace(str, i, curr1, curr2, rate);
 		}
 
 		printStrings(str, n);
