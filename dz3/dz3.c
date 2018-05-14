@@ -23,13 +23,15 @@ char* readLine() {
 }
 
 void printStrings(char **str, int n) {
+	printf("**********************\n");
 	for (int i = 0; i < n; i++) {
 		puts(*(str + i));
 	}
+	printf("**********************\n");
 }
 
-void replace(char **str, int ind, char *curr1, char *curr2, char *rate) {
-	char *t, *num1, *num2, *s = *(str + ind);
+char *replace(char *s, char *curr1, char *curr2, char *rate) {
+	char *t, *num1, *num2;
 	double val1, val2;
 	int i, len1, len2, diff, cnt, ind1, ind2;
 
@@ -88,7 +90,6 @@ void replace(char **str, int ind, char *curr1, char *curr2, char *rate) {
 							s = realloc(s, strlen(s) + 1);
 							if (s == NULL) error();
 							t = s + cnt;	// jer se posle realokacije s ne mora nalaziti na istoj lokaciji
-							*(str + ind) = s;
 						}
 					}
 					else {	// diff > 0
@@ -96,7 +97,6 @@ void replace(char **str, int ind, char *curr1, char *curr2, char *rate) {
 						s = realloc(s, strlen(s) + 1 + diff);
 						if (s == NULL) error();
 						t = s + cnt;	// jer se posle realokacije s ne mora nalaziti na istoj lokaciji
-						*(str + ind) = s;
 						
 						*(s + strlen(s) + diff) = '\0';
 
@@ -121,6 +121,8 @@ void replace(char **str, int ind, char *curr1, char *curr2, char *rate) {
 			t++;
 		}
 	}
+
+	return s;
 }
 
 int main() {
@@ -155,7 +157,7 @@ int main() {
 		rate = strtok(NULL, " ");
 
 		for (i = 0; i < n; i++) {
-			replace(str, i, curr1, curr2, rate);
+			*(str + i) = replace(*(str + i), curr1, curr2, rate);
 		}
 
 		printStrings(str, n);
