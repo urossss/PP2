@@ -1,6 +1,5 @@
 #include "dz4.h"
 
-
 /* Greska u alokaciji. */
 void error() {
 	printf("Error in allocation!\n");

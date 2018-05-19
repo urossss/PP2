@@ -10,7 +10,7 @@ typedef struct {
 	char *name, *surname, *id, *city, *voting;
 } Person;
 
-/* element lista osoba */
+/* element liste osoba */
 typedef struct elem {
 	Person *person;
 	struct elem *next;
@@ -38,5 +38,8 @@ void printList(List);
 void swap(Person *, Person *);
 void sort(List);
 void deleteList(List *);
+void deletePerson(Person *);
+void removePerson(List *, char *);
+void assignVoters(List);
 
 #endif

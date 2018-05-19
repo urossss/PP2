@@ -7,7 +7,9 @@ void printPerson(Person *p) {
 
 /* Ispis cele liste. */
 void printList(List lst) {
+	printf("\n");
 	Elem *curr = lst.first;
 	for (; curr; curr = curr->next)
 		printPerson(curr->person);
+	printf("\n");
 }
