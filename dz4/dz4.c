@@ -2,6 +2,7 @@
 
 int main() {
 	List lst = { NULL, NULL };
+	Person *p;
 
 	while (1) {
 		printf("Izaberite jednu od opcija:\n");
@@ -27,11 +28,15 @@ int main() {
 			break;
 		case 2:
 			printf("Unesite podatke o glasacu:\n");
-			add_beg(&lst, readPerson());
+			p = NULL;
+			while (!p) p = readPerson();
+			add_beg(&lst, p);
 			break;
 		case 3:
 			printf("Unesite podatke o glasacu:\n");
-			add_end(&lst, readPerson());
+			p = NULL;
+			while (!p) p = readPerson();
+			add_end(&lst, p);
 			break;
 		case 4:
 			printf("Unesite JMBG glasaca kog zelite da izbacite iz liste:\n");

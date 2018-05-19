@@ -53,6 +53,7 @@ Person* readPerson() {
 /* Dodavanje na pocetak liste. */
 void add_beg(List *plst, Person *p) {
 	Elem *newElem = malloc(sizeof(Elem));
+	if (newElem == NULL) error();
 	newElem->person = p;
 	newElem->next = plst->first;
 	if (!plst->last) plst->last = newElem;
@@ -62,6 +63,7 @@ void add_beg(List *plst, Person *p) {
 /* Dodavanje na kraj liste. */
 void add_end(List *plst, Person *p) {
 	Elem *newElem = malloc(sizeof(Elem));
+	if (newElem == NULL) error();
 	newElem->person = p;
 	newElem->next = NULL;
 	if (!plst->first) plst->first = newElem;
