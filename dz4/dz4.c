@@ -5,6 +5,8 @@ int main() {
 	Person *p;
 
 	while (1) {
+		system("cls");
+
 		printf("Izaberite jednu od opcija:\n");
 		printf("	1 - ucitavanje liste\n");
 		printf("	2 - ubacivanje elementa na pocetak liste\n");
@@ -44,6 +46,7 @@ int main() {
 			break;
 		case 5:
 			printList(lst);
+			getch();
 			break;
 		case 6:
 			sort(lst);
