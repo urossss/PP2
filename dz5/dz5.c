@@ -2,6 +2,8 @@
 
 int main(int argc, const char *argv[]) {
 	FILE *in, *out;
+	List lst;
+	char path[255] = "C:\\Music\\Compilation";
 	clock_t t1, t2;
 	double d;
 
@@ -15,7 +17,11 @@ int main(int argc, const char *argv[]) {
 	if (!in || !out) error(2);
 	initFile(in, 2);
 
-	List lst = loadList(in);
+	lst = loadList(in);
+
+	//printf("Unesite novu putanju: ");
+	//scanf("%s", path);
+	changePath(lst, path);
 
 	savePLS(out, lst);
 

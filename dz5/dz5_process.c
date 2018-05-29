@@ -1,6 +1,38 @@
 #include "dz5.h"
 
-// promena pocetnog dela putanje
+/* Menja pocetni deo putanje do svake pesme u listi stringom s. */
+void changePath(List lst, const char *s) {
+	Elem *curr = lst.first;
+	char *p;
+	int len1, len2, name, diff, i;
+	while (curr) {
+		p = strrchr(curr->song->path, '\\');
+		if (p == NULL) error(4);
+		len1 = p - curr->song->path;	// duzina pocetnog dela putanje koji se menja
+		name = strlen(curr->song->path) - len1;	// duzina ostatka putanje, koji ostaje isti
+		len2 = strlen(s);	// duzina novog pocetnog dela putanje
+		diff = len2 - len1;
+		if (diff > 0) {
+			curr->song->path = realloc(curr->song->path, (strlen(curr->song->path) + 1 + diff) * sizeof(char));
+			if (!curr->song->path) error(1);
+			for (i = len1 + name; i >= len1; i--) {
+				*(curr->song->path + i + diff) = *(curr->song->path + i);
+			}
+			strncpy(curr->song->path, s, strlen(s));
+		}
+		else {
+			strncpy(curr->song->path, s, strlen(s));
+			for (i = len1; i <= len1 + name; i++) {
+				*(curr->song->path + i + diff) = *(curr->song->path + i);
+			}
+			if (diff < 0) {
+				curr->song->path = realloc(curr->song->path, (strlen(curr->song->path) + 1) * sizeof(char));
+				if (!curr->song->path) error(1);
+			}
+		}
+		curr = curr->next;
+	}
+}
 
 void swap(Song *s1, Song *s2) {
 	Song s = *s1;

@@ -33,6 +33,7 @@ Song* readSong(FILE *);
 List loadList(FILE *);
 
 /* process */
+void changePath(List, const char *);
 void swap(Song *, Song *);
 void sort(List);
 void mostSongs(List);
