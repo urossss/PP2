@@ -16,12 +16,17 @@ int main(int argc, const char *argv[]) {
 	initFile(in, 2);
 
 	List lst = loadList(in);
+
 	savePLS(out, lst);
+
+	sort(lst);
+	printf("Broj pesama: %d\n", lst.len);
+	mostSongs(lst);
+
 	deleteList(&lst);
 
 	printCurrentTime();
 	t2 = clock();
-
 	d = (double)(t2 - t1) / CLOCKS_PER_SEC * 1000;
 	printf("Utroseno vreme: %lgms\n", d);
 }

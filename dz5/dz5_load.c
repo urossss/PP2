@@ -1,5 +1,6 @@
 #include "dz5.h"
 
+/* Ispisuje odgovarajucu poruku o gresci i prekida rad programa. */
 void error(int e) {
 	switch (e) {
 	case 1:
@@ -10,6 +11,9 @@ void error(int e) {
 		break;
 	case 3:
 		printf("Not enough command line arguments!\n");
+		break;
+	case 4:
+		printf("Invalid file format!\n");
 		break;
 	}
 	exit(e);
@@ -36,15 +40,23 @@ Song* readSong(FILE *stream) {
 	fscanf(stream, "<Title>\"");
 	fgets(s->title, 255, stream);
 	p = strrchr(s->title, '"');
+	if (p == NULL) error(4);
 	*p = '\0';
 	p = strchr(s->title, '-');
+	if (p == NULL) error(4);
 	strncpy(s->author, s->title, p - s->title);
 	s->author[p - s->title - 1] = '\0';
 	fscanf(stream, "<Ref href = \"");
 	fgets(s->path, 255, stream);
 	p = strrchr(s->path, '"');
+	if (p == NULL) error(4);
 	*p = '\0';
 	fscanf(stream, "</Entry>\n");
+
+	s->title = realloc(s->title, sizeof(char) * (strlen(s->title) + 1));
+	s->path = realloc(s->path, sizeof(char) * (strlen(s->path) + 1));
+	s->author = realloc(s->author, sizeof(char) * (strlen(s->author) + 1));
+	if (!s->title || !s->author || !s->path) error(1);
 
 	return s;
 }
