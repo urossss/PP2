@@ -37,21 +37,28 @@ Song* readSong(FILE *stream) {
 		return NULL;	// u slucaju da format nije kao sto se ocekuje ili se cita sa pogresnog mesta, nama indikator za kraj datoteke
 	}
 
-	fscanf(stream, "<Title>\"");
+	/*fscanf(stream, "<Title>\"");
 	fgets(s->title, 255, stream);
 	p = strrchr(s->title, '"');
 	if (p == NULL) error(4);
-	*p = '\0';
+	*p = '\0';*/
+
+	fscanf(stream, "%*[^\"]\"%[^\"]%*[^\n]\n", s->title);
+
 	p = strchr(s->title, '-');
 	if (p == NULL) error(4);
 	strncpy(s->author, s->title, p - s->title);
 	s->author[p - s->title - 1] = '\0';
-	fscanf(stream, "<Ref href = \"");
+
+	/*fscanf(stream, "<Ref href = \"");
 	fgets(s->path, 255, stream);
 	p = strrchr(s->path, '"');
 	if (p == NULL) error(4);
-	*p = '\0';
-	fscanf(stream, "</Entry>\n");
+	*p = '\0';*/
+
+	fscanf(stream, "%*[^\"]\"%[^\"]%*[^\n]\n%*[^\n]\n", s->path);
+
+	//fscanf(stream, "</Entry>\n");
 
 	s->title = realloc(s->title, sizeof(char) * (strlen(s->title) + 1));
 	s->path = realloc(s->path, sizeof(char) * (strlen(s->path) + 1));
